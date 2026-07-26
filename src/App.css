@@ -1,0 +1,2454 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  color: var(--text);
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* ---------- Toolbar atas ---------- */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  z-index: 5;
+}
+
+.toolbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.toolbar__brand svg {
+  color: var(--accent);
+}
+
+.toolbar__profile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--panel-raised);
+  color: var(--accent);
+  cursor: pointer;
+  transition:
+    background-color 0.12s,
+    border-color 0.12s;
+}
+
+.toolbar__profile:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.toolbar__download-bin {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  padding: 7px !important;
+  flex-shrink: 0;
+  color: var(--accent-2) !important;
+  border-color: var(--border) !important;
+}
+.toolbar__download-bin:hover:not(:disabled) {
+  border-color: var(--accent-2) !important;
+}
+
+.toolbar__settings {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  padding: 7px !important;
+  flex-shrink: 0;
+  color: var(--text-dim) !important;
+}
+.toolbar__settings:hover:not(:disabled) {
+  color: var(--text) !important;
+}
+
+.toolbar__board {
+  padding: 6px 10px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--panel-raised);
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  max-width: 160px;
+}
+.toolbar__board:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbar__actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--panel-raised);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  transition:
+    background-color 0.12s,
+    border-color 0.12s,
+    opacity 0.12s;
+}
+
+.toolbar__actions button:hover:not(:disabled) {
+  border-color: var(--text-faint);
+}
+
+.toolbar__actions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.toolbar__run {
+  background: var(--accent-dim) !important;
+  border-color: var(--accent-dim) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+}
+
+.toolbar__run:hover:not(:disabled) {
+  background: var(--accent) !important;
+}
+
+.toolbar__run:disabled {
+  background: var(--panel-raised) !important;
+  border-color: var(--border) !important;
+  color: inherit !important;
+}
+
+.toolbar__reset-modules {
+  color: var(--danger) !important;
+}
+.toolbar__reset-modules:hover:not(:disabled) {
+  border-color: var(--danger) !important;
+  background: var(--danger-soft) !important;
+}
+
+/* Stop cuma bisa diklik saat simulasi sedang jalan (disabled={!running}) -- dibikin
+   merah waktu aktif supaya kelihatan jelas simulasinya SEDANG jalan, bukan cuma tombol
+   mati seperti tombol lain. */
+.toolbar__stop:not(:disabled) {
+  background: var(--danger-soft) !important;
+  border-color: var(--danger) !important;
+  color: var(--danger-strong) !important;
+}
+.toolbar__stop:not(:disabled):hover {
+  background: var(--danger-strong) !important;
+  color: #fff !important;
+}
+
+.toolbar__error {
+  color: var(--danger);
+  font-size: 12.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.toolbar__upload {
+  background: var(--panel-raised) !important;
+  border-color: var(--accent-2) !important;
+  color: var(--accent-2) !important;
+}
+.toolbar__upload:hover:not(:disabled) {
+  background: rgba(56, 189, 248, 0.14) !important;
+}
+
+.toolbar__upload-unsupported {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--border);
+  color: var(--text-faint);
+  font-size: 12.5px;
+  white-space: nowrap;
+  cursor: help;
+}
+
+/* ---------- Konsol Upload ke Board (gaya Arduino IDE) ---------- */
+
+.upload-console-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 9, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 60;
+}
+
+.upload-console {
+  width: min(640px, 100%);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.upload-console__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.upload-console__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.upload-console__badge {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+.upload-console__badge--running {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.upload-console__badge--success {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.upload-console__badge--error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.upload-console__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.upload-console__close:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+.upload-console__close:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.upload-console__progress {
+  padding: 12px 16px 0;
+  flex-shrink: 0;
+}
+.upload-console__progress-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+.upload-console__progress-track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--panel-raised);
+  overflow: hidden;
+}
+.upload-console__progress-bar {
+  height: 100%;
+  background: var(--accent-2);
+  border-radius: 999px;
+  transition: width 0.15s ease-out;
+}
+
+.upload-console__log {
+  flex: 1;
+  margin: 0;
+  padding: 14px 16px;
+  overflow-y: auto;
+  background: var(--bg);
+  color: var(--text-dim);
+  font-family: 'Cascadia Code', Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 160px;
+}
+
+/* ---------- Dialog Projek Saya ---------- */
+
+.projects {
+  width: min(520px, 100%);
+  max-height: 84vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.projects__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.projects__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+}
+
+.projects__count {
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--panel-raised);
+  font-size: 11.5px;
+  color: var(--text-dim);
+}
+
+.projects__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.projects__close:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+
+.projects__save {
+  display: flex;
+  gap: 8px;
+  padding: 14px 16px 10px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.projects__input {
+  flex: 1;
+  min-width: 160px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+}
+.projects__input:focus {
+  outline: none;
+  border-color: var(--accent-2);
+}
+
+.projects__save-btn,
+.projects__download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.projects__save-btn {
+  border: 1px solid var(--accent-dim);
+  background: var(--accent-dim);
+  color: #fff;
+}
+.projects__save-btn:hover:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.projects__save-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.projects__download-btn {
+  border: 1px solid var(--border);
+  background: var(--panel-raised);
+  color: var(--accent-2);
+}
+.projects__download-btn:hover {
+  border-color: var(--accent-2);
+}
+
+.projects__error,
+.projects__notice,
+.projects__warning {
+  margin: 0 16px 6px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.projects__error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+.projects__notice {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.projects__warning {
+  background: rgba(245, 158, 11, 0.14);
+  color: var(--warning);
+}
+
+.projects__empty {
+  margin: 0;
+  padding: 8px 16px 20px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--text-faint);
+}
+
+.projects__list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 8px 8px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.projects__item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+  border-radius: var(--radius-sm);
+}
+.projects__item:hover {
+  background: var(--panel-raised);
+}
+
+.projects__item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+  padding: 8px 8px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.projects__item-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.projects__item-meta {
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+.projects__item-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.projects__item-btn:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+.projects__item-btn--danger:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+/* ---------- Dialog Contoh Sketch ---------- */
+
+.projects-overlay,
+.examples-overlay,
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 9, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 70;
+}
+
+.examples {
+  width: min(460px, 100%);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.examples__header,
+.settings__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.examples__title,
+.settings__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.examples__close,
+.settings__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.examples__close:hover,
+.settings__close:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+
+.examples__hint {
+  margin: 0;
+  padding: 10px 16px 0;
+  font-size: 11.5px;
+  color: var(--text-faint);
+  flex-shrink: 0;
+}
+
+.examples__error {
+  margin: 10px 16px 0;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.examples__list {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.examples__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s;
+}
+.examples__item:hover:not(:disabled) {
+  background: var(--panel-raised);
+  border-color: var(--border);
+}
+.examples__item:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.examples__item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.examples__item-desc {
+  font-size: 11.5px;
+  color: var(--text-faint);
+  line-height: 1.45;
+}
+
+.examples__item-loading {
+  font-size: 11px;
+  color: var(--accent);
+}
+
+/* ---------- Dialog Pengaturan ---------- */
+
+.settings {
+  width: min(440px, 100%);
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.settings__body {
+  padding: 16px;
+}
+
+.settings__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.settings__input {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+}
+.settings__input:focus {
+  outline: none;
+  border-color: var(--accent-2);
+}
+
+.settings__help {
+  margin: 8px 0 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--text-faint);
+}
+.settings__help code {
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: var(--panel-raised);
+  font-size: 11px;
+  word-break: break-all;
+}
+
+.settings__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+}
+
+.settings__saved {
+  margin-right: auto;
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.settings__reset {
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.settings__reset:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+
+.settings__save {
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent-dim);
+  background: var(--accent-dim);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.settings__save:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---------- Dialog Profil / Info Pengembang ---------- */
+
+.profile-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 9, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 70;
+}
+
+.profile-dialog {
+  width: min(360px, 100%);
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.profile-dialog__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-dialog__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: var(--accent-dim);
+  color: #fff;
+}
+
+.profile-dialog__title {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.profile-dialog__name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.profile-dialog__role {
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+.profile-dialog__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.profile-dialog__close:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+
+.profile-dialog__body {
+  padding: 16px;
+}
+
+.profile-dialog__badge {
+  padding: 10px;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  border-radius: var(--radius-md);
+}
+
+.profile-dialog__links {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+}
+
+.profile-dialog__link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 4px;
+  border-radius: var(--radius-sm);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 0.12s;
+}
+
+.profile-dialog__link:hover {
+  background: var(--panel-raised);
+}
+
+.profile-dialog__link:hover .profile-dialog__link-go {
+  color: var(--text-dim);
+}
+
+.profile-dialog__link-label {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.profile-dialog__link-value {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-dialog__link-go {
+  color: var(--text-faint);
+  flex-shrink: 0;
+}
+
+.profile-dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+}
+
+.profile-dialog__done {
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent-dim);
+  background: var(--accent-dim);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.profile-dialog__done:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.status-pill {
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.status-pill--idle {
+  background: var(--panel-raised);
+  color: var(--text-dim);
+}
+.status-pill--running {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.status-pill--stopped {
+  background: var(--panel-raised);
+  color: var(--text-dim);
+}
+.status-pill--error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+/* ---------- Bilah tab (khusus HP/layar sempit) ---------- */
+
+.app__tabs {
+  display: none;
+  flex-shrink: 0;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 8px;
+  gap: 6px;
+}
+
+.app__tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.app__tab--active {
+  background: var(--panel-raised);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+/* ---------- Layout: editor kiri, komponen kanan, serial di bawah ---------- */
+
+.app__body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: var(--editor-width, 42%) 6px 1fr;
+  grid-template-rows: 1fr auto;
+  grid-template-areas:
+    'editor resizer sim'
+    'bottom bottom bottom';
+}
+
+.app__body--editor-fullscreen {
+  grid-template-columns: 1fr;
+  grid-template-areas: 'editor';
+}
+.app__body--editor-fullscreen .app__resizer,
+.app__body--editor-fullscreen .app__sim-pane,
+.app__body--editor-fullscreen .app__bottom {
+  display: none;
+}
+
+.app__editor-pane {
+  grid-area: editor;
+  min-width: 280px;
+  min-height: 0;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.editor-toolbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 12px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-toolbar__label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.editor-toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.editor-toolbar__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--panel-raised);
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.editor-toolbar__btn:hover:not(:disabled) {
+  background: var(--panel-alt);
+  color: var(--text);
+}
+
+.editor-toolbar__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.app__editor-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* @uiw/react-codemirror: prop `height="100%"` cuma diterapkan ke `.cm-editor` di
+   dalamnya, bukan ke div wrapper luar yang di-render (`.code-editor` di sini) — tanpa
+   ini wrapper itu cuma setinggi konten (block biasa), jadi `.cm-editor{height:100%}`
+   tidak punya tinggi pasti buat dijadikan acuan dan scroller-nya tumbuh mengikuti
+   jumlah baris kode alih-alih men-scroll, menimpa panel di bawahnya. */
+.code-editor {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Baris yang bikin simulasi gagal — ditandai agar siswa tidak perlu mencari sendiri
+   nomor baris yang disebut di pesan error. */
+.cm-error-line {
+  background: var(--danger-soft);
+  box-shadow: inset 3px 0 0 var(--danger-strong);
+}
+
+.app__resizer {
+  grid-area: resizer;
+  position: relative;
+  background: var(--border);
+  cursor: col-resize;
+  touch-action: none;
+}
+.app__resizer::after {
+  content: '';
+  position: absolute;
+  inset: 0 -5px;
+}
+.app__resizer:hover,
+.app__resizer--active {
+  background: var(--accent-2);
+}
+
+.app__sim-pane {
+  grid-area: sim;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+}
+
+.app__bottom {
+  grid-area: bottom;
+  height: 220px;
+  flex-shrink: 0;
+  display: flex;
+  border-top: 1px solid var(--border);
+}
+
+/* ---------- Serial Monitor ---------- */
+
+.serial-monitor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--bg);
+}
+
+.serial-monitor__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 12px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+/* ---------- Tab Monitor / Plotter ---------- */
+
+.serial-monitor__tabs {
+  display: flex;
+  gap: 2px;
+  margin-right: auto;
+}
+
+.serial-monitor__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.serial-monitor__tab:hover {
+  color: var(--text);
+}
+.serial-monitor__tab--active {
+  background: var(--panel-raised);
+  border-color: var(--border);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.serial-monitor__tab-badge {
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+/* ---------- Serial Plotter ---------- */
+
+.plotter {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.plotter--empty {
+  justify-content: center;
+  padding: 16px 20px;
+}
+.plotter--empty p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--text-faint);
+  max-width: 62ch;
+}
+.plotter--empty code {
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--panel-raised);
+  color: var(--text-dim);
+  font-size: 11.5px;
+}
+
+.plotter__canvas {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.plotter__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+/* Grid & sumbu sengaja recessive — data yang harus menonjol, bukan rangkanya. */
+.plotter__grid {
+  stroke: var(--border);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.plotter__tick,
+.plotter__count {
+  fill: var(--text-faint);
+  font-size: 9px;
+  font-family: 'Cascadia Code', Consolas, monospace;
+}
+
+.plotter__crosshair {
+  stroke: var(--text-faint);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.plotter__line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  /* Garis tetap 2px berapa pun rasio scale viewBox-nya. */
+  vector-effect: non-scaling-stroke;
+}
+
+.plotter__dot {
+  stroke: var(--bg);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.plotter__legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  margin: 0;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border-soft);
+  background: var(--panel);
+  flex-shrink: 0;
+}
+
+.plotter__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+}
+
+.plotter__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.plotter__legend-name {
+  color: var(--text-dim);
+}
+
+.plotter__legend-value {
+  color: var(--text);
+  font-weight: 600;
+  font-family: 'Cascadia Code', Consolas, monospace;
+}
+
+.plotter__legend-at {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+.serial-monitor__system-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: auto;
+  padding-left: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+.serial-monitor__system-toggle input {
+  width: 13px;
+  height: 13px;
+  cursor: pointer;
+}
+
+.serial-monitor__clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--panel-raised);
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.serial-monitor__clear:hover:not(:disabled) {
+  border-color: var(--danger-strong);
+  color: var(--danger);
+  background: var(--danger-soft);
+}
+.serial-monitor__clear:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.serial-monitor__log {
+  flex: 1;
+  margin: 0;
+  padding: 10px 12px;
+  overflow-y: auto;
+  font-family: 'Cascadia Code', Consolas, monospace;
+  font-size: 12.5px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.serial-monitor__input {
+  display: flex;
+  border-top: 1px solid var(--border-soft);
+  flex-shrink: 0;
+}
+
+.serial-monitor__input input {
+  flex: 1;
+  background: var(--panel);
+  border: none;
+  color: inherit;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 13px;
+}
+.serial-monitor__input input:focus {
+  outline: none;
+  background: var(--panel-alt);
+}
+
+.serial-monitor__input button {
+  padding: 8px 16px;
+  background: var(--panel-raised);
+  border: none;
+  border-left: 1px solid var(--border-soft);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+}
+.serial-monitor__input button:hover {
+  background: var(--panel-alt);
+}
+
+/* ---------- Panel Komponen (kartu part + pilihan pin) ---------- */
+
+.parts-panel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.parts-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.parts-panel__title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text);
+}
+
+.parts-panel__add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent-dim);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.parts-panel__add:hover:not(:disabled) {
+  background: rgba(34, 197, 94, 0.22);
+}
+.parts-panel__add:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- Panggung wiring: kanvas React Flow (papan + kartu part bisa digeser/pan/zoom) ---------- */
+
+.wiring-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.wiring-stage .react-flow {
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+}
+
+.wiring-stage__empty {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  margin: 0;
+  max-width: 320px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 14px 18px;
+  background: var(--panel);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  pointer-events: none;
+}
+
+/* React Flow: tema gelap + kontrol ramah sentuh.
+   Selector di-scope di bawah .wiring-stage (bukan langsung .react-flow__*) supaya
+   spesifisitasnya PASTI menang lawan style.css bawaan @xyflow/react — import CSS-nya
+   ada di WiringStage.tsx yang secara urutan modul JS termuat setelah App.css, jadi kalau
+   spesifisitas cuma imbang, punya library itu yang menang (aturan terakhir menang). */
+.wiring-stage .react-flow__attribution {
+  display: none;
+}
+.wiring-stage .react-flow__controls {
+  background: var(--panel-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.wiring-stage .react-flow__controls-button {
+  width: 32px;
+  height: 32px;
+  background: var(--panel-raised);
+  border: none;
+  border-bottom: 1px solid var(--border);
+  fill: var(--text-dim);
+}
+.wiring-stage .react-flow__controls-button:hover {
+  background: var(--panel-alt);
+  fill: var(--text);
+}
+.wiring-stage .react-flow__controls-button:last-child {
+  border-bottom: none;
+}
+/* Saat simulasi jalan, `nodesDraggable`/`elementsSelectable` sengaja dimatikan (kunci
+   posisi node) — tapi React Flow ikut men-set pointer-events:none ke SELURUH isi node
+   begitu node kehilangan class .draggable/.selectable, jadi part interaktif (tombol,
+   toggle, slider) yang seharusnya TETAP bisa dipakai selagi simulasi jalan ikut mati.
+   Dipulihkan lewat override ini — larangan drag-nya sendiri tetap berlaku (itu logika
+   JS `nodesDraggable`, bukan CSS ini), cuma interaksi konten di dalamnya yang dikembalikan. */
+.wiring-stage .react-flow__node {
+  pointer-events: auto !important;
+}
+.wiring-stage .react-flow__edge-path {
+  stroke: var(--accent-2);
+  stroke-width: 2.5;
+}
+.wiring-stage .react-flow__node {
+  cursor: grab;
+}
+.wiring-stage .react-flow__node.dragging {
+  cursor: grabbing;
+}
+.wiring-stage .react-flow__node.dragging .part-chip,
+.wiring-stage .react-flow__node.dragging .board {
+  box-shadow: var(--shadow-md);
+}
+.wiring-stage .react-flow__node.selectable:focus,
+.wiring-stage .react-flow__node.selectable:focus-visible {
+  outline: none;
+}
+
+/* ---------- Titik pin/terminal (dipakai di papan & kartu part) ----------
+   Handle React Flow di-render "static" (bukan absolute) supaya ikut alur flex
+   biasa di sini — posisi sambungan kabelnya tetap akurat karena React Flow
+   mengukur letak asli elemen ini di DOM, bukan cuma dari prop Position. */
+
+.wire-dot {
+  position: static !important;
+  transform: none !important;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--panel);
+  border: 1.5px solid var(--text-faint);
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.wire-dot--active {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+}
+
+/* ---------- Papan Arduino Uno ---------- */
+
+.board {
+  width: max-content;
+  background: linear-gradient(160deg, #0f4c3a, #0b3a2c);
+  border: 1px solid #0a3327;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Warna board beda per tipe (Uno=hijau/bawaan, ESP32=biru, ESP8266=ungu) — bukan
+   cuma kosmetik, ini sinyal visual paling cepat buat siswa/guru kalau board yang
+   sedang aktif memang sudah ganti (bukan diam-diam masih Arduino Uno). */
+.board--esp32 {
+  background: linear-gradient(160deg, #123a5c, #0b2740);
+  border-color: #0d3a5c;
+}
+.board--esp32 .board__pin-label {
+  color: #93c5fd;
+}
+.board--esp32 .board__pin .wire-dot {
+  background: #0b2740;
+  border-color: #38bdf8;
+}
+.board--esp32 .board__chip {
+  background: #0a2338;
+  border-color: #0d3a5c;
+  color: #7dd3fc;
+}
+.board--esp32 .board__brand {
+  color: #dbeafe;
+}
+.board--esp32 .board__brand-sub {
+  color: #7dd3fc;
+}
+
+.board--esp8266 {
+  background: linear-gradient(160deg, #3b2159, #241338);
+  border-color: #3c2160;
+}
+.board--esp8266 .board__pin-label {
+  color: #d8b4fe;
+}
+.board--esp8266 .board__pin .wire-dot {
+  background: #241338;
+  border-color: #c084fc;
+}
+.board--esp8266 .board__chip {
+  background: #1f1033;
+  border-color: #3c2160;
+  color: #d8b4fe;
+}
+.board--esp8266 .board__brand {
+  color: #ede9fe;
+}
+.board--esp8266 .board__brand-sub {
+  color: #d8b4fe;
+}
+
+.board__row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.board__row--top {
+  margin-bottom: 14px;
+}
+
+.board__row--bottom {
+  margin-top: 14px;
+}
+
+.board__pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.board__row--top .board__pin {
+  flex-direction: column-reverse;
+}
+
+.board__pin-label {
+  font-size: 9px;
+  color: #a7f3d0;
+  font-family: 'Cascadia Code', Consolas, monospace;
+}
+
+.board__pin .wire-dot {
+  background: #0b3a2c;
+  border-color: #34d399;
+}
+.board__pin .wire-dot--active {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+}
+
+.board__center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 6px 0;
+}
+
+.board__chip {
+  padding: 10px 14px;
+  background: #08251c;
+  border: 1px solid #0a3327;
+  border-radius: var(--radius-sm);
+  color: #6ee7b7;
+  font-size: 10.5px;
+  font-family: 'Cascadia Code', Consolas, monospace;
+  letter-spacing: 0.02em;
+}
+
+.board__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #d1fae5;
+  line-height: 1.2;
+}
+.board__brand-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.board__brand-sub {
+  font-size: 10px;
+  color: #86efac;
+  letter-spacing: 0.08em;
+}
+
+.board__deco {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.board__usb {
+  width: 22px;
+  height: 16px;
+  background: #c0c0c0;
+  border-radius: 2px;
+  display: inline-block;
+}
+.board__led {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 6px 2px rgba(245, 158, 11, 0.6);
+  display: inline-block;
+}
+
+/* ---------- Chip part (kanvas) ----------
+   Sengaja seminim mungkin: cuma preview part + titik pin. Badge ikon (pojok kiri atas)
+   adalah tombol buka modal konfigurasi (pilih pin & parameter) — lihat .part-config-modal
+   di bawah. Area preview-nya SENGAJA tidak ikut buka modal supaya part interaktif (tombol,
+   toggle, slider) tetap bisa dipakai langsung tanpa ke-ganggu popup. */
+
+.part-chip {
+  position: relative;
+  background: var(--panel-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px 8px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 64px;
+}
+.part-chip:hover {
+  border-color: var(--text-faint);
+}
+
+.part-chip--incomplete {
+  border-color: rgba(245, 158, 11, 0.55);
+}
+
+.part-chip--unknown {
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--danger);
+}
+
+.part-chip__badge {
+  position: absolute;
+  top: -7px;
+  left: -7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--panel-raised);
+  border: 1px solid var(--border);
+  color: var(--accent-2);
+  padding: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+.part-chip__badge:hover {
+  border-color: var(--accent-2);
+  background: var(--panel-alt);
+}
+
+.part-chip__delete {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--panel-raised);
+  color: var(--text-faint);
+  cursor: pointer;
+  z-index: 1;
+}
+.part-chip__delete:hover:not(:disabled) {
+  border-color: var(--danger-strong);
+  color: var(--danger);
+  background: var(--danger-soft);
+}
+.part-chip__delete:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.part-chip__preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  min-width: 40px;
+}
+
+.part-chip__terminals {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ---------- Modal konfigurasi part (pin + parameter) ---------- */
+
+.part-config-modal {
+  width: min(420px, 100%);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.part-config-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.part-config-modal__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.part-config-modal__body {
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.part-config-modal__section h3 {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+}
+
+.part-card__icon {
+  color: var(--accent-2);
+  flex-shrink: 0;
+}
+
+.part-card__pins {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.part-card__pin-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12.5px;
+}
+
+.part-card__pin-label {
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+.part-card__required {
+  color: var(--warning);
+  margin-left: 3px;
+}
+
+.part-card__pin-row select {
+  flex: 1;
+  min-width: 0;
+  max-width: 62%;
+}
+
+.part-card__params {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.part-card__param-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--text-dim);
+}
+
+.part-card__param-row select,
+.part-card__param-row input[type='text'],
+.part-card__param-row input[type='number'] {
+  flex: 1;
+  min-width: 0;
+  max-width: 62%;
+}
+
+/* Input umum di dalam modal konfigurasi part */
+.part-config-modal select,
+.part-config-modal input[type='text'],
+.part-config-modal input[type='number'] {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 9px;
+  font: inherit;
+  font-size: 12.5px;
+}
+.part-config-modal select:focus,
+.part-config-modal input:focus {
+  outline: none;
+  border-color: var(--accent-2);
+}
+.part-config-modal select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.part-config-modal input[type='color'] {
+  width: 40px;
+  height: 30px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  cursor: pointer;
+}
+
+/* ---------- Modal "Tambah part" (PartPicker) ---------- */
+
+.part-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 9, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 50;
+}
+
+.part-picker {
+  width: min(480px, 100%);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.part-picker__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.part-picker__search {
+  flex: 1;
+  background: var(--panel-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+.part-picker__search:focus {
+  outline: none;
+  border-color: var(--accent-2);
+}
+
+.part-picker__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.part-picker__close:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+
+.part-picker__body {
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.part-picker__group-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+}
+
+.part-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 8px;
+}
+
+.part-picker__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 6px;
+  min-height: 72px;
+  background: var(--panel-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font: inherit;
+  font-size: 11.5px;
+  text-align: center;
+  cursor: pointer;
+  line-height: 1.25;
+}
+.part-picker__item svg {
+  color: var(--accent-2);
+}
+.part-picker__item:hover {
+  border-color: var(--accent-2);
+  background: var(--panel-alt);
+}
+
+.part-picker__empty {
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 13px;
+  padding: 20px 0;
+}
+
+/* ---------- Render tiap part ---------- */
+
+.led-render {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin: 0 auto;
+  transition:
+    background-color 0.1s,
+    box-shadow 0.1s;
+}
+
+.button-render {
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--panel-raised);
+  color: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  min-width: 88px;
+}
+.button-render--pressed {
+  background: var(--accent-dim);
+  border-color: var(--accent-dim);
+  color: #fff;
+}
+
+.toggle-render,
+.pir-render {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+}
+.toggle-render input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+}
+.pir-render--active span {
+  color: #4ade80;
+}
+
+.buzzer-render {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-faint);
+}
+.buzzer-render--active {
+  color: var(--warning);
+}
+.buzzer-render__freq {
+  font-size: 10px;
+}
+
+.rgb-render {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin: 0 auto;
+  background: var(--panel-raised);
+  transition:
+    background-color 0.1s,
+    box-shadow 0.1s;
+}
+
+.slider-render {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  width: 100%;
+}
+.slider-render input[type='range'] {
+  flex: 1;
+  min-width: 90px;
+}
+.slider-render__value {
+  flex-shrink: 0;
+  min-width: 32px;
+  text-align: right;
+  color: var(--text-dim);
+}
+
+.dht-render {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11px;
+  width: 100%;
+}
+.dht-render label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dht-render label span {
+  flex-shrink: 0;
+  min-width: 44px;
+  color: var(--text-dim);
+}
+.dht-render input[type='range'] {
+  flex: 1;
+  min-width: 90px;
+}
+
+.servo-render {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.servo-render__dial {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  position: relative;
+}
+.servo-render__needle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 20px;
+  background: var(--accent-2);
+  transform-origin: top center;
+  margin-left: -1px;
+}
+.servo-render__angle {
+  font-size: 10.5px;
+  color: var(--text-dim);
+}
+
+.relay-render {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.relay-render__indicator {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--border);
+}
+.relay-render__bulb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #333;
+}
+.relay-render--on .relay-render__indicator {
+  background: var(--danger);
+}
+.relay-render--on .relay-render__bulb {
+  background: #facc15;
+  box-shadow: 0 0 10px 3px #facc15;
+}
+
+.rfid-render {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+.rfid-render__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.rfid-render__label {
+  font-size: 9.5px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.rfid-render__uid {
+  font-family: monospace;
+  background: var(--panel);
+  padding: 5px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-soft);
+}
+.rfid-render__actions {
+  display: flex;
+  gap: 6px;
+}
+.rfid-render__actions button {
+  font-size: 10px;
+  padding: 5px 8px;
+  background: var(--panel-raised);
+  border: 1px solid var(--border);
+  color: inherit;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.rfid-render__actions button:hover {
+  border-color: var(--text-faint);
+}
+
+.shift-register-render {
+  display: flex;
+  gap: 4px;
+}
+.shift-register-render__led {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--panel-raised);
+  display: inline-block;
+}
+.shift-register-render__led--on {
+  background: #4ade80;
+  box-shadow: 0 0 4px 1px #4ade80;
+}
+
+.stepper-render {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.stepper-render__gear {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 3px dashed var(--text-faint);
+  transition: transform 0.05s linear;
+}
+.stepper-render__steps {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.lcd-render {
+  background: #0f4c3a;
+  color: #d1fae5;
+  font-family: monospace;
+  font-size: 10.5px;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  line-height: 1.4;
+  white-space: pre;
+}
+
+/* ---------- Responsif: HP / layar sempit ---------- */
+
+@media (max-width: 860px) {
+  .app__tabs {
+    display: flex;
+  }
+
+  .app__body {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .app__editor-pane,
+  .app__sim-pane,
+  .app__bottom {
+    display: none;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    border: none;
+  }
+
+  .app__resizer {
+    display: none;
+  }
+
+  .app__body[data-mobile-tab='code'] .app__editor-pane {
+    display: flex;
+  }
+  .app__body[data-mobile-tab='parts'] .app__sim-pane {
+    display: flex;
+  }
+  .app__body[data-mobile-tab='serial'] .app__bottom {
+    display: flex;
+  }
+
+  .toolbar {
+    padding: 8px 10px;
+    gap: 10px;
+  }
+  .toolbar__brand-text {
+    display: none;
+  }
+
+  /* Pesan error TIDAK boleh disembunyikan di HP — dulu `display: none` di sini bikin
+     simulasi yang gagal berhenti tanpa penjelasan apa pun di layar sempit. Sekarang
+     turun jadi baris kedua toolbar (flex-basis 100%) supaya tetap terbaca penuh. */
+  .toolbar {
+    flex-wrap: wrap;
+  }
+  .toolbar__error {
+    flex-basis: 100%;
+    white-space: normal;
+    overflow: visible;
+    line-height: 1.45;
+  }
+  .toolbar__actions button {
+    padding: 8px 12px;
+  }
+
+  /* Tombol Upload paling panjang teksnya ("Upload ke Board" / "Upload (Chrome/Edge PC)")
+     dan bikin toolbar sesak di HP — sisakan ikonnya saja, teks tetap ada buat
+     screen reader (aria-label) & tooltip (title) saat disentuh-tahan. */
+  .toolbar__upload,
+  .toolbar__upload-unsupported {
+    padding: 8px 10px;
+  }
+  .toolbar__upload-label {
+    display: none;
+  }
+
+  /* Reset Komponen jadi tombol ikon saja di HP -- teksnya kalah penting dibanding
+     Mulai/Stop/Upload dan bikin toolbar sesak di layar sempit. */
+  .toolbar__reset-modules {
+    padding: 8px 10px;
+  }
+  .toolbar__reset-label {
+    display: none;
+  }
+
+  .part-card__pin-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .part-card__pin-row select {
+    max-width: 100%;
+  }
+  .part-card__param-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .part-card__param-row select,
+  .part-card__param-row input[type='text'],
+  .part-card__param-row input[type='number'] {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .parts-panel__header {
+    padding: 10px 12px;
+  }
+  .parts-panel__title {
+    font-size: 13px;
+  }
+  .parts-panel__add span {
+    display: none;
+  }
+}

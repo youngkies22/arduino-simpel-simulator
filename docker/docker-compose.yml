@@ -1,0 +1,23 @@
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        # Kosongkan biar app pakai FALLBACK_COMPILE_SERVER_URL bawaan, atau isi kalau mau
+        # membakar alamat compile-server sendiri ke build (lihat docker/Dockerfile).
+        VITE_COMPILE_SERVER_URL: ''
+    container_name: arduino-simulator-web
+    restart: unless-stopped
+    ports:
+      - '3003:80'
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      # 127.0.0.1, bukan localhost — di dalam container `localhost` resolve ke ::1 dulu
+      # (lihat /etc/hosts image ini), tapi nginx cuma listen di wildcard IPv4 (0.0.0.0:80),
+      # jadi wget ke "localhost" kena connection-refused padahal server hidup normal.
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1/']
+      interval: 30s
+      timeout: 5s
+      retries: 3
