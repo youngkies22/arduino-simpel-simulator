@@ -11,6 +11,7 @@ peraga cepat tanpa harus membawa banyak komponen fisik ke kelas.
 
 - [✨ Fitur](#-fitur)
 - [🚀 Memulai](#-memulai)
+- [🐳 Menjalankan dengan Docker](#-menjalankan-dengan-docker)
 - [📖 Panduan Cepat: LED Berkedip](#-panduan-cepat-led-berkedip)
 - [🧩 Panduan Fitur](#-panduan-fitur)
   - [Editor Kode & Bantuan Menulis](#editor-kode--bantuan-menulis)
@@ -62,6 +63,57 @@ Perintah lain yang tersedia:
 | `npm test` | Jalankan seluruh test sekali jalan (Vitest) |
 | `npm run test:watch` | Jalankan test dalam mode watch |
 | `npm run lint` | Cek gaya kode dengan Oxlint |
+
+## 🐳 Menjalankan dengan Docker
+
+Alternatif dari `npm install` di atas — cocok kalau mau jalankan tanpa install Node.js
+di mesin, atau deploy ke server/VPS.
+
+### 1. Install Docker
+
+- **Windows / Mac** — install [Docker Desktop](https://www.docker.com/products/docker-desktop/),
+  buka aplikasinya, tunggu sampai ikon Docker di system tray/menu bar menyala hijau
+  (berarti Docker engine-nya sudah hidup).
+- **Linux** — ikuti [panduan resmi](https://docs.docker.com/engine/install/) sesuai
+  distro (Ubuntu/Debian biasanya lewat `apt`), lalu pastikan Docker Compose plugin ikut
+  terinstal (`docker compose version` harus jalan, bukan cuma `docker version`).
+
+Cek instalasi berhasil:
+
+```bash
+docker --version
+docker compose version
+```
+
+### 2. Build & jalankan
+
+Dari root folder proyek ini:
+
+```bash
+docker compose -f docker/docker-compose.yml up -d --build
+```
+
+Build pertama makan waktu beberapa menit (download image Node + install dependency).
+Setelah selesai, buka:
+
+```
+http://localhost:3003
+```
+
+### 3. Perintah lain yang berguna
+
+| Perintah | Fungsi |
+| --- | --- |
+| `docker compose -f docker/docker-compose.yml up -d --build` | Build ulang lalu jalankan (pakai ini tiap habis ganti kode) |
+| `docker compose -f docker/docker-compose.yml logs -f` | Lihat log container secara live |
+| `docker compose -f docker/docker-compose.yml down` | Hentikan & hapus container |
+| `docker compose -f docker/docker-compose.yml ps` | Cek status container (termasuk healthcheck) |
+
+Detail lain (ganti port, alamat compile-server saat build, kenapa struktur foldernya
+begitu) ada di [`docker/README.md`](docker/README.md). Setup Docker ini **cuma untuk app
+frontend ini** — kalau mau juga menjalankan `compile-server` (dipakai fitur "Upload ke
+Board"), itu punya Docker setup sendiri di [`compile-server/`](compile-server/README.md),
+dijalankan terpisah.
 
 ## 📖 Panduan Cepat: LED Berkedip
 
@@ -311,6 +363,9 @@ Dipilih dengan urutan prioritas berikut (lihat
 
 ### Terkait
 
-[`compile-server/`](compile-server/) — service Node.js + `arduino-cli` terpisah (Docker)
-yang dipakai bersama oleh app ini dan app Flutter lain untuk compile jadi `.hex`/`.bin`
-asli.
+- [`compile-server/`](compile-server/) — service Node.js + `arduino-cli` terpisah (Docker)
+  yang dipakai bersama oleh app ini dan app Flutter lain untuk compile jadi `.hex`/`.bin`
+  asli.
+- [`docker/`](docker/) — Docker setup buat app frontend ini sendiri (build Vite + nginx),
+  terpisah dari Docker setup `compile-server/` di atas. Lihat
+  [🐳 Menjalankan dengan Docker](#-menjalankan-dengan-docker).
