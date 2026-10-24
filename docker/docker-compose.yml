@@ -10,7 +10,9 @@ services:
     container_name: arduino-simulator-web
     restart: unless-stopped
     ports:
-      - '3003:80'
+      # Hanya localhost: diakses lewat nginx (simulator.budutwj.id). Port yang dipublish
+      # Docker melewati UFW, jadi '3003:80' membuat situs terbuka di http://IP:3003 tanpa SSL.
+      - '127.0.0.1:3003:80'
     security_opt:
       - no-new-privileges:true
     healthcheck:
